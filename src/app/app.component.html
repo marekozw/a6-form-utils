@@ -1,0 +1,30 @@
+<h1>Angular 6</h1>
+
+<form [formGroup]="optionsForm">
+  <input formControlName="asyncPhone">
+  <button (click)="setValue()">Async phone</button>
+</form>
+
+<br>
+<hr>
+<br>
+
+<form [formGroup]="personalDataForm" (submit)="registerUser($event)" novalidate>
+  <div>
+    <label for="phone-control">Enter phone number</label>
+    <input id="phone-control" formControlName="phone"
+      [appFormViewFormatter]="phoneFormatter"
+      [appFormModelNormalizer]="phoneNormalizer"
+    >
+    <div class="error-message" *ngIf="personalDataForm.invalid && (
+          personalDataForm.get('phone').dirty ||
+          personalDataForm.get('phone').touched)"
+    >
+      <p *ngIf="personalDataForm.get('phone').errors.required">Required</p>
+      <p *ngIf="!personalDataForm.get('phone').errors.required && personalDataForm.get('phone').errors.phone">Wprowadź poprawny numer telefonu</p>
+    </div>
+  </div>
+  <button type="submit" [disabled]="personalDataForm.invalid">Submit</button>
+</form>
+
+<pre>{{ this.personalDataForm.value | json }}</pre>
